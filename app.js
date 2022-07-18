@@ -1,19 +1,13 @@
-//npm - global command, comes with node
-//npm --version
+const http = require('http')
+const {createReadStream} = require('fs')
 
-//local dependency - use it only in this particular project
-//npm i <packageName>
+http.createServer((req,res)=>{
+    const stream = createReadStream('./fol1/big.txt','utf8')
 
-//global dependency - use it in any project    
-//npm install -g <packageName> 
-//sudo npm install -g <packageName> 
-
-//package json - manifest file(stores importanyts info about project/package)
-//manual approach (create package.json in the root, create properties etc)
-//npm init(step by step, press enter to skip)
-//npm init -y (everything default)
-
-const _ = require("lodash")
-
-const result = _.flatMapDeep([1,[2,[3,[4]]]])
-console.log(result)
+    stream.on('open',()=>{
+        stream.pipe(res)
+    })
+    stream.on('error',()=>{
+        res.end(error)
+    })
+}).listen(5001)
